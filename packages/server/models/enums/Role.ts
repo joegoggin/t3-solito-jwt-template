@@ -1,12 +1,11 @@
 import { z } from "zod";
-import { objectToZodStringArray } from "server/utils/objectToStringArray";
 
 export const Roles = {
     Admin: "Admin",
     User: "User",
 } as const;
 
-const RolesArray = objectToZodStringArray(Roles);
+const RolesArray = ["Admin", "User"] as const;
 
 export const RoleEnum = z.enum(RolesArray, {
     required_error: "Role is required.",

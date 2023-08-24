@@ -17,11 +17,6 @@ const SelectiveSchema = UserSchema.omit({
     password: true,
 });
 
-export type UserInput = z.infer<typeof UserSchema> & { sendCode?: boolean };
-
-export type CreateUserInput = Omit<
-    UserInput,
-    "username" | "password" | "confirm"
-> & { sendCode?: boolean };
+export type UserInput = z.infer<typeof UserSchema>;
 
 export type User = z.infer<typeof SelectiveSchema> & { id: string };
