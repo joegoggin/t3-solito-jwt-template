@@ -11,7 +11,18 @@ datasource db {
 }
 
 model User {
-    id    String @id @default(uuid())
-    fName String
-    lName String
+    id       String @id @default(uuid())
+    fName    String
+    lName    String
+    email    String
+    username String
+    password String
+    role     Role
+}
+
+// Enums
+
+enum Role {
+    Admin
+    User
 }

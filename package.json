@@ -19,7 +19,7 @@
 		"native": "cd apps/expo && yarn start --tunnel",
 		"web": "cd apps/next && yarn next",
 		"test:client": "cd apps/expo && yarn test",
-        "test:server": "cd apps/next && yarn test"
+		"test:server": "cd apps/next && yarn test"
 	},
 	"packageManager": "yarn@3.4.1"
 }
