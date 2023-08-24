@@ -1,0 +1,19 @@
+{
+	"name": "db",
+	"main": "index.js",
+	"version": "1.0.0",
+	"scripts": {
+		"db:generate": "dotenv -e ../../.env prisma generate",
+		"db:push": "dotenv -e ../../.env prisma db push",
+		"dev": "dotenv -e ../../.env prisma studio --port 5556"
+	},
+	"license": "ISC",
+	"devDependencies": {
+		"dotenv-cli": "^7.3.0",
+		"prisma": "^5.1.1",
+		"typescript": "^5.1.6"
+	},
+	"dependencies": {
+		"@prisma/client": "latest"
+	}
+}

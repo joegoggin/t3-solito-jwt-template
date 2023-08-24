@@ -1,0 +1,12 @@
+{
+	"name": "server",
+	"version": "1.0.0",
+	"main": "index.js",
+	"license": "ISC",
+	"dependencies": {
+		"@trpc/server": "^10.37.1",
+		"db": "*",
+		"devalue": "^4.3.2",
+		"zod": "^3.22.1"
+	}
+}
