@@ -1,6 +1,7 @@
 import { TRPCError } from "@trpc/server";
 import { User, UserInput } from "../../models/schemas/User";
 import { PublicCTX } from "../../types/CTX";
+import { hashPassword } from "../../utils/auth";
 import { handlePrismaUniqueError } from "../../utils/errorHandling";
 import { validateEmail } from "../../utils/validation";
 
@@ -22,13 +23,21 @@ export const handleCreateUser = async (ctx: PublicCTX, data: UserInput) => {
     }
 
     try {
+        const hashedPassword = await hashPassword(data.password);
+
+        const userData = {
+            ...data,
+            password: hashedPassword,
+            confirm: undefined,
+        };
+
         const user = await ctx.prisma.user.create({
-            data,
+            data: userData,
         });
 
-        const userData = { ...user, password: undefined };
+        const createUserData = { ...user, password: undefined };
 
-        return { user: userData as User };
+        return { user: createUserData as User };
     } catch (error) {
         handlePrismaUniqueError(error, "email", data.email, "User");
         handlePrismaUniqueError(error, "username", data.username, "User");
