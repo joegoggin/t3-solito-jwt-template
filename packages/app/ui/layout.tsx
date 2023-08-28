@@ -8,4 +8,7 @@ export const Layout = styled(
     "flex-1 items-center justify-center bg-green-800"
 );
 
-export const Card = styled(View, "p-10 bg-white rounded");
+export const Card = styled(
+    View,
+    "p-20 w-[50%] bg-white rounded-lg items-center"
+);
