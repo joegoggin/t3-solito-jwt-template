@@ -1,5 +1,5 @@
+import { Layout } from "app/ui/layout";
 import { H1, P } from "app/ui/typography";
-import { View } from "app/ui/view";
 import { api } from "app/utils/trpc";
 import React, { useEffect, useState } from "react";
 
@@ -20,12 +20,12 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
     }, [fetchedMessage]);
 
     return (
-        <View className="flex-1 items-center justify-center bg-green-800">
+        <Layout>
             <H1 className="text-white">T3 Solito Template</H1>
             <P className="text-[20px] text-cyan-100 lg:text-[30px]">
                 {message}
             </P>
-        </View>
+        </Layout>
     );
 };
 

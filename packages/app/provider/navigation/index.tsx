@@ -3,27 +3,27 @@ import * as Linking from "expo-linking";
 import { useMemo } from "react";
 
 export function NavigationProvider({
-	children,
+    children,
 }: {
-	children: React.ReactNode;
+    children: React.ReactNode;
 }) {
-	return (
-		<NavigationContainer
-			linking={useMemo(
-				() => ({
-					prefixes: [Linking.createURL("/")],
-					config: {
-						initialRouteName: "home",
-						screens: {
-							home: "",
-							"user-detail": "user/:id",
-						},
-					},
-				}),
-				[]
-			)}
-		>
-			{children}
-		</NavigationContainer>
-	);
+    return (
+        <NavigationContainer
+            linking={useMemo(
+                () => ({
+                    prefixes: [Linking.createURL("/")],
+                    config: {
+                        initialRouteName: "home",
+                        screens: {
+                            home: "",
+                            signIn: "sign-in",
+                        },
+                    },
+                }),
+                []
+            )}
+        >
+            {children}
+        </NavigationContainer>
+    );
 }
