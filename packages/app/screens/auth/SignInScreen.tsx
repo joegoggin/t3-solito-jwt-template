@@ -1,6 +1,6 @@
 import { Card, Layout } from "app/ui/layout";
 import { View } from "app/ui/view";
-import { TextInput } from "app/ui/inputs";
+import { InputLabel, TextInput } from "app/ui/inputs";
 import { H1, Text } from "app/ui/typography";
 import React from "react";
 import { Button } from "app/ui/buttons";
@@ -13,13 +13,9 @@ const SignInScreen: React.FC<SignInScreenProps> = () => {
             <Card>
                 <H1 className="text-black">Sign In</H1>
                 <View className="mt-10 w-[80%]">
-                    <Text className="mb-2 ml-2 text-base font-bold text-green-800">
-                        Username
-                    </Text>
+                    <InputLabel>Username</InputLabel>
                     <TextInput className="mb-2" />
-                    <Text className="mb-2 ml-2 text-base font-bold text-green-800">
-                        Password
-                    </Text>
+                    <InputLabel>Password</InputLabel>
                     <TextInput />
                 </View>
                 <View className="mt-20 w-[80%] flex-row justify-evenly">
