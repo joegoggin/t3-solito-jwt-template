@@ -9,7 +9,8 @@
 		"@trpc/client": "^10.37.1",
 		"@trpc/react-query": "^10.37.1",
 		"nativewind": "2.0.9",
-		"solito": "3.0.0"
+		"solito": "3.0.0",
+		"tailwind-merge": "^1.14.0"
 	},
 	"sideEffects": false
 }

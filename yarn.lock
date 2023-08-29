@@ -4490,6 +4490,7 @@ __metadata:
     "@trpc/react-query": ^10.37.1
     nativewind: 2.0.9
     solito: 3.0.0
+    tailwind-merge: ^1.14.0
   languageName: unknown
   linkType: soft
 
@@ -14790,6 +14791,13 @@ __metadata:
     typescript: ^4.7.4
   languageName: unknown
   linkType: soft
+
+"tailwind-merge@npm:^1.14.0":
+  version: 1.14.0
+  resolution: "tailwind-merge@npm:1.14.0"
+  checksum: 8cf5d37f51b3b32e4bdd5544feaed34357bfba2f64f14834cc4a21ac29b0ae22d7255386467a0f1dadb3e38499389efbbabeddcd0b16571af5a0d346a4921877
+  languageName: node
+  linkType: hard
 
 "tailwindcss@npm:^3.0.24":
   version: 3.3.1
