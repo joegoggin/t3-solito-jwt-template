@@ -28,6 +28,10 @@ const HomeScreen: React.FC = () => {
         router.push("/sign-in");
     };
 
+    const handleSignUpNavigation = () => {
+        router.push("/sign-up");
+    };
+
     return (
         <Layout>
             <H1 className="text-white">T3 Solito Template</H1>
@@ -43,7 +47,7 @@ const HomeScreen: React.FC = () => {
                 <Button
                     className="bg-black text-white"
                     text="Sign Up"
-                    onPress={() => { }}
+                    onPress={handleSignUpNavigation}
                 />
             </View>
         </Layout>

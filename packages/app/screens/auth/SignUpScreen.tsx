@@ -1,11 +1,58 @@
 import { Card, Layout } from "app/ui/layout";
 import { View } from "app/ui/view";
 import { InputLabel, TextInput } from "app/ui/inputs";
-import { H1 } from "app/ui/typography";
-import React from "react";
+import { H1, P } from "app/ui/typography";
+import React, { useState } from "react";
 import { Button } from "app/ui/buttons";
+import { handleChangeText } from "app/utils/handleChangeText";
+import { useRouter } from "solito/router";
+import { api } from "app/utils/trpc";
+import { capitalize } from "app/utils/capitalize";
+import { Roles } from "server/models/enums/Role";
 
-const SignInScreen: React.FC = () => {
+const SignUpScreen: React.FC = () => {
+    // state
+    const [fName, setFName] = useState<string>("");
+    const [lName, setLName] = useState<string>("");
+    const [email, setEmail] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
+    const [confirm, setConfirm] = useState<string>("");
+
+    // router
+    const router = useRouter();
+
+    // mutations
+    const createUser = api.user.createUser.useMutation();
+
+    // event handlers
+    const handleSignInNavigation = () => {
+        router.push("/sign-in");
+    };
+
+    const handleSignUp = async () => {
+        try {
+            const { user } = await createUser.mutateAsync({
+                fName: capitalize(fName),
+                lName: capitalize(lName),
+                email: email.toLowerCase(),
+                password,
+                confirm,
+                role: Roles.User,
+            });
+
+            if (user) {
+                console.log(user);
+                setFName("");
+                setLName("");
+                setEmail("");
+                setPassword("");
+                setConfirm("");
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     return (
         <Layout>
             <Card>
@@ -14,25 +61,49 @@ const SignInScreen: React.FC = () => {
                     <View className="mb-2 w-full flex-row">
                         <View className="mr-[4%] w-[48%]">
                             <InputLabel>First Name</InputLabel>
-                            <TextInput />
+                            <TextInput
+                                value={fName}
+                                onChangeText={handleChangeText(setFName)}
+                            />
                         </View>
+
                         <View className="mr-[4%] w-[48%]">
-                            <InputLabel>First Name</InputLabel>
-                            <TextInput />
+                            <InputLabel>Last Name</InputLabel>
+                            <TextInput
+                                value={lName}
+                                onChangeText={handleChangeText(setLName)}
+                            />
                         </View>
                     </View>
-                    <InputLabel>Username</InputLabel>
-                    <TextInput className="mb-2" />
+
+                    <InputLabel>Email</InputLabel>
+                    <TextInput
+                        className="mb-2"
+                        value={email}
+                        onChangeText={handleChangeText(setEmail)}
+                    />
+
                     <InputLabel>Password</InputLabel>
-                    <TextInput className="mb-2" />
-                    <InputLabel></InputLabel>
+                    <TextInput
+                        className="mb-2"
+                        secureTextEntry={true}
+                        value={password}
+                        onChangeText={handleChangeText(setPassword)}
+                    />
+
+                    <InputLabel>Confirm Password</InputLabel>
+                    <TextInput
+                        secureTextEntry={true}
+                        value={confirm}
+                        onChangeText={handleChangeText(setConfirm)}
+                    />
                 </View>
                 <View className="mt-20 w-[80%] flex-row justify-evenly">
-                    <Button text="Sign In" onPress={() => { }} />
+                    <Button text="Sign Up" onPress={handleSignUp} />
                     <Button
                         className="bg-black"
-                        text="Sign Up"
-                        onPress={() => { }}
+                        text="Sign In"
+                        onPress={handleSignInNavigation}
                     />
                 </View>
             </Card>
@@ -40,4 +111,4 @@ const SignInScreen: React.FC = () => {
     );
 };
 
-export default SignInScreen;
+export default SignUpScreen;

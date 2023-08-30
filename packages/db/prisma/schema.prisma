@@ -15,7 +15,6 @@ model User {
     fName    String
     lName    String
     email    String @unique
-    username String @unique
     password String
     role     Role
 }

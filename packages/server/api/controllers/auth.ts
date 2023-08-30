@@ -6,19 +6,19 @@ import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../../env";
 
 export const handleSignIn = async (ctx: PublicCTX, data: SignInInput) => {
-    const { username, password } = data;
+    const { email, password } = data;
 
     try {
         const user = await ctx.prisma.user.findUnique({
             where: {
-                username,
+                email,
             },
         });
 
         if (!user) {
             throw new TRPCError({
                 code: "NOT_FOUND",
-                message: `Unable to find account with username of ${username}`,
+                message: `Unable to find account with email of ${email}`,
             });
         }
 

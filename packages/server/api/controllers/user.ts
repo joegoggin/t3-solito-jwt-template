@@ -8,6 +8,8 @@ import { validateEmail } from "../../utils/validation";
 export const handleCreateUser = async (ctx: PublicCTX, data: UserInput) => {
     const { password, confirm } = data;
 
+    console.log(data);
+
     if (!validateEmail(data.email)) {
         throw new TRPCError({
             code: "BAD_REQUEST",
@@ -25,21 +27,19 @@ export const handleCreateUser = async (ctx: PublicCTX, data: UserInput) => {
     try {
         const hashedPassword = await hashPassword(data.password);
 
-        const userData = {
-            ...data,
-            password: hashedPassword,
-            confirm: undefined,
-        };
+        const { confirm: _confirm, ...userData } = data;
+        userData.password = hashedPassword;
 
         const user = await ctx.prisma.user.create({
             data: userData,
         });
 
-        const createUserData = { ...user, password: undefined };
+        const { password: _password, ...createUserData } = user;
 
         return { user: createUserData as User };
     } catch (error) {
         handlePrismaUniqueError(error, "email", data.email, "User");
-        handlePrismaUniqueError(error, "username", data.username, "User");
+
+        throw error;
     }
 };
