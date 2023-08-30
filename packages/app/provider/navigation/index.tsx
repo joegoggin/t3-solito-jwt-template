@@ -17,6 +17,7 @@ export function NavigationProvider({
                         screens: {
                             home: "",
                             signIn: "sign-in",
+                            signUp: "sign-up",
                         },
                     },
                 }),
