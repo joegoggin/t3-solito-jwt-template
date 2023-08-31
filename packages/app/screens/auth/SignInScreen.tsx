@@ -7,11 +7,15 @@ import { Button } from "app/ui/buttons";
 import { handleChangeText } from "app/utils/handleChangeText";
 import { api } from "app/utils/trpc";
 import { useRouter } from "solito/router";
+import { useUser } from "app/provider/context/UserContextProvider";
 
 const SignInScreen: React.FC = () => {
     // state
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+
+    // context
+    const { setUserData } = useUser();
 
     // mutations
     const signIn = api.auth.signIn.useMutation();
@@ -32,9 +36,8 @@ const SignInScreen: React.FC = () => {
             });
 
             if (userData) {
-                console.log(userData);
-                setEmail("");
-                setPassword("");
+                setUserData(userData.userId, userData.token);
+                router.push("/dashboard");
             }
         } catch (error) {
             console.error(error);

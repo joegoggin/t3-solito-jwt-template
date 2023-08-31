@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 
 export type PrivateCTX = {
     prisma: PrismaClient<any, never, any>;
-    token: string;
+    token: string | undefined;
 };
 
 export type PublicCTX = {

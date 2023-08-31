@@ -3,7 +3,7 @@ import { PublicCTX } from "server/types/CTX";
 import { SignInInput } from "server/models/schemas/Auth";
 import { verifyPassword } from "server/utils/auth";
 import jwt from "jsonwebtoken";
-import { JWT_SECRET } from "../../env";
+import { JWT_SECRET } from "server/env";
 
 export const handleSignIn = async (ctx: PublicCTX, data: SignInInput) => {
     const { email, password } = data;

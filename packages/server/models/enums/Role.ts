@@ -11,4 +11,4 @@ export const RoleEnum = z.enum(RolesArray, {
     required_error: "Role is required.",
 });
 
-export type Roles = (typeof Roles)[keyof typeof Roles];
+export type Role = (typeof Roles)[keyof typeof Roles];

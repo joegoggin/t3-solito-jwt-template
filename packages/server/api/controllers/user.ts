@@ -1,14 +1,23 @@
 import { TRPCError } from "@trpc/server";
 import { User, UserInput } from "../../models/schemas/User";
-import { PublicCTX } from "../../types/CTX";
+import { PrivateCTX, PublicCTX } from "../../types/CTX";
 import { hashPassword } from "../../utils/auth";
-import { handlePrismaUniqueError } from "../../utils/errorHandling";
+import {
+    handlePrismaNotFoundError,
+    handlePrismaUniqueError,
+} from "../../utils/errorHandling";
 import { validateEmail } from "../../utils/validation";
+
+const select = {
+    id: true,
+    fName: true,
+    lName: true,
+    email: true,
+    role: true,
+};
 
 export const handleCreateUser = async (ctx: PublicCTX, data: UserInput) => {
     const { password, confirm } = data;
-
-    console.log(data);
 
     if (!validateEmail(data.email)) {
         throw new TRPCError({
@@ -41,5 +50,22 @@ export const handleCreateUser = async (ctx: PublicCTX, data: UserInput) => {
         handlePrismaUniqueError(error, "email", data.email, "User");
 
         throw error;
+    }
+};
+
+export const handleGetUser = async (ctx: PrivateCTX, userId: string) => {
+    try {
+        const user = await ctx.prisma.user.findUnique({
+            where: {
+                id: userId,
+            },
+            select,
+        });
+
+        if (user) {
+            return user as User;
+        }
+    } catch (error) {
+        handlePrismaNotFoundError(error, "User");
     }
 };
