@@ -1,6 +1,7 @@
 import {
     clearLocalUserData,
     storeUserDataLocally,
+    getLocalUserData,
 } from "app/utils/localStorage";
 import { api } from "app/utils/trpc";
 import {
@@ -14,11 +15,16 @@ import { Role } from "server/models/enums/Role";
 import { User } from "server/models/schemas/User";
 import { setAuthToken } from "../trpc/TRPCProvider";
 
+type UserData = {
+    userId: string;
+    token: string;
+};
+
 type UserContext = {
     user: User | null;
     token: string | null;
     role: Role | null;
-    setUserData: (userId: string, token: string) => void;
+    setUserData: (userData: UserData) => void;
     clearUserData: () => void;
 };
 
@@ -46,11 +52,11 @@ const UserContextProvider: React.FC<{ children: ReactNode }> = ({
     });
 
     // functions
-    const setUserData = (userId: string, token: string) => {
-        setUserId(userId);
-        setToken(token);
-        setAuthToken(token);
-        storeUserDataLocally(userId, token);
+    const setUserData = (userData: UserData) => {
+        setUserId(userData.userId);
+        setToken(userData.token);
+        setAuthToken(userData.token);
+        storeUserDataLocally(userData.userId, userData.token);
     };
 
     const clearUserData = () => {
@@ -62,11 +68,29 @@ const UserContextProvider: React.FC<{ children: ReactNode }> = ({
 
     // effects
     useEffect(() => {
+        const init = async () => {
+            const userData = await getLocalUserData();
+
+            if (userData.userId && userData.token) {
+                setUserId(userData.userId);
+                setToken(userData.token);
+                setAuthToken(userData.token);
+            }
+        };
+
+        init();
+    }, []);
+
+    useEffect(() => {
         if (fetchedUser) {
             setUser(fetchedUser);
             setRole(fetchedUser.role as Role);
         }
     }, [fetchedUser]);
+
+    useEffect(() => {
+        refetch();
+    }, [userId]);
 
     return (
         <UserCtx.Provider

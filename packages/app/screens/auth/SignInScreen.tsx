@@ -36,7 +36,7 @@ const SignInScreen: React.FC = () => {
             });
 
             if (userData) {
-                setUserData(userData.userId, userData.token);
+                setUserData(userData);
                 router.push("/dashboard");
             }
         } catch (error) {
