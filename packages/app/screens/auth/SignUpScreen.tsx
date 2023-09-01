@@ -9,6 +9,7 @@ import { useRouter } from "solito/router";
 import { api } from "app/utils/trpc";
 import { capitalize } from "app/utils/capitalize";
 import { Roles } from "server/models/enums/Role";
+import { useUser } from "app/provider/context/UserContextProvider";
 
 const SignUpScreen: React.FC = () => {
     // state
@@ -18,11 +19,15 @@ const SignUpScreen: React.FC = () => {
     const [password, setPassword] = useState<string>("");
     const [confirm, setConfirm] = useState<string>("");
 
+    // context
+    const { setUserData } = useUser();
+
     // router
     const router = useRouter();
 
     // mutations
     const createUser = api.user.createUser.useMutation();
+    const signIn = api.auth.signIn.useMutation();
 
     // event handlers
     const handleSignInNavigation = () => {
@@ -41,12 +46,12 @@ const SignUpScreen: React.FC = () => {
             });
 
             if (user) {
-                console.log(user);
-                setFName("");
-                setLName("");
-                setEmail("");
-                setPassword("");
-                setConfirm("");
+                const { token } = await signIn.mutateAsync({ email, password });
+
+                if (token) {
+                    setUserData(user.id, token);
+                    router.push("/dashboard");
+                }
             }
         } catch (error) {
             console.error(error);
