@@ -1,3 +1,12 @@
 import SignUpScreen from "app/screens/auth/SignUpScreen";
+import AuthPage from "../../auth/AuthPage";
 
-export default SignUpScreen;
+const SignUpPage = () => {
+    return (
+        <AuthPage>
+            <SignUpScreen />
+        </AuthPage>
+    );
+};
+
+export default SignUpPage;

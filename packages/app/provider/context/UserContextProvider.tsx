@@ -90,9 +90,11 @@ const UserContextProvider: React.FC<{ children: ReactNode }> = ({
                     } else {
                         clearUserData();
                     }
-                }
 
-                setIsInit(true);
+                    setIsInit(true);
+                } else {
+                    setIsInit(true);
+                }
             } catch (error) {
                 console.error(error);
             }

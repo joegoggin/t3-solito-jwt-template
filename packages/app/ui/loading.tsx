@@ -1,14 +1,16 @@
-import { styled } from "nativewind";
 import React from "react";
-import { ActivityIndicator as NativeActivityIndicator } from "react-native";
+import { ActivityIndicator } from "react-native";
 import { Layout } from "./layout";
 
-const ActivityIndicator = styled(NativeActivityIndicator, "text-green-800");
+type LoadingSpinnerProps = {
+    color: string;
+    size: "small" | "large";
+};
 
-const LoadingSpinner: React.FC = () => {
+const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({ color, size }) => {
     return (
         <Layout>
-            <ActivityIndicator color="white" size="large" />
+            <ActivityIndicator color={color} size={size} />
         </Layout>
     );
 };
