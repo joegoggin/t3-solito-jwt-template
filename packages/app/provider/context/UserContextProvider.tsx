@@ -1,7 +1,7 @@
 import {
-    clearLocalUserData,
-    storeUserDataLocally,
-    getLocalUserData,
+    clearLocalToken,
+    storeTokenLocally,
+    getLocalToken,
 } from "app/utils/localStorage";
 import { api } from "app/utils/trpc";
 import {
@@ -24,6 +24,7 @@ type UserContext = {
     user: User | null;
     token: string | null;
     role: Role | null;
+    isInit: boolean;
     setUserData: (userData: UserData) => void;
     clearUserData: () => void;
 };
@@ -32,6 +33,7 @@ const UserCtx = createContext<UserContext>({
     user: null,
     token: null,
     role: null,
+    isInit: false,
     setUserData: () => { },
     clearUserData: () => { },
 });
@@ -45,36 +47,54 @@ const UserContextProvider: React.FC<{ children: ReactNode }> = ({
     const [token, setToken] = useState<string | null>(null);
     const [role, setRole] = useState<Role | null>(null);
     const [userId, setUserId] = useState<string>("");
+    const [isInit, setIsInit] = useState<boolean>(false);
 
     // queries
-    const { data: fetchedUser, refetch } = api.user.getUser.useQuery({
+    const { data: fetchedUser } = api.user.getUser.useQuery({
         userId,
     });
+
+    // mutations
+    const verifyToken = api.auth.verifyToken.useMutation();
 
     // functions
     const setUserData = (userData: UserData) => {
         setUserId(userData.userId);
         setToken(userData.token);
         setAuthToken(userData.token);
-        storeUserDataLocally(userData.userId, userData.token);
+        storeTokenLocally(userData.token);
     };
 
     const clearUserData = () => {
         setUserId("");
         setToken(null);
         setUser(null);
-        clearLocalUserData();
+        clearLocalToken();
     };
 
     // effects
     useEffect(() => {
         const init = async () => {
-            const userData = await getLocalUserData();
+            try {
+                const token = await getLocalToken();
 
-            if (userData.userId && userData.token) {
-                setUserId(userData.userId);
-                setToken(userData.token);
-                setAuthToken(userData.token);
+                if (token) {
+                    const { userId: fetchedUserId } =
+                        await verifyToken.mutateAsync({
+                            token,
+                        });
+                    if (fetchedUserId) {
+                        setUserId(fetchedUserId);
+                        setToken(token);
+                        setAuthToken(token);
+                    } else {
+                        clearUserData();
+                    }
+                }
+
+                setIsInit(true);
+            } catch (error) {
+                console.error(error);
             }
         };
 
@@ -88,13 +108,9 @@ const UserContextProvider: React.FC<{ children: ReactNode }> = ({
         }
     }, [fetchedUser]);
 
-    useEffect(() => {
-        refetch();
-    }, [userId]);
-
     return (
         <UserCtx.Provider
-            value={{ user, token, role, setUserData, clearUserData }}
+            value={{ user, token, role, isInit, setUserData, clearUserData }}
         >
             {children}
         </UserCtx.Provider>

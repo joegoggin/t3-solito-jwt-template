@@ -38,3 +38,17 @@ export const handleSignIn = async (ctx: PublicCTX, data: SignInInput) => {
         throw error;
     }
 };
+
+export const handleVerifyToken = (token: string) => {
+    try {
+        const decoded = jwt.verify(token, JWT_SECRET) as jwt.JwtPayload;
+
+        if (decoded.userId) {
+            return { userId: decoded.userId as string };
+        }
+
+        return { userId: null };
+    } catch {
+        return { userId: null };
+    }
+};

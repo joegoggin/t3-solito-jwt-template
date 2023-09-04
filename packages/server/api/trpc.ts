@@ -1,12 +1,13 @@
 import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
 import { ZodError } from "zod";
-import { initTRPC, TRPCError } from "@trpc/server";
+import { initTRPC } from "@trpc/server";
 import { PrismaClient } from "@prisma/client";
 import * as jwt from "jsonwebtoken";
 import * as devalue from "devalue";
 
 import prisma from "db";
 import { JWT_SECRET } from "../env";
+import { InvalidTokenError } from "../types/errors/invalidToken";
 
 type CreateContextOptions = {
     prisma?: PrismaClient;
@@ -55,18 +56,12 @@ const isAuth = t.middleware(({ ctx, next }) => {
     const { token } = ctx;
 
     if (!token) {
-        throw new TRPCError({
-            code: "UNAUTHORIZED",
-            message: "Access token is invalid.",
-        });
+        throw new InvalidTokenError();
     } else {
         try {
             jwt.verify(token, JWT_SECRET);
         } catch {
-            throw new TRPCError({
-                code: "UNAUTHORIZED",
-                message: "Invalid Auth Token.",
-            });
+            throw new InvalidTokenError();
         }
     }
 
