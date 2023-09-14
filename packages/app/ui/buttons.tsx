@@ -4,16 +4,17 @@ import { Platform, Pressable as NativePressable } from "react-native";
 import { Text } from "./typography";
 import { twMerge } from "tailwind-merge";
 import { separateTextClasses } from "app/utils/tailwind";
+import { getClasses, Styled } from "app/utils/hooks/getClasses";
 
 export const StyledPressable = styled(NativePressable);
 
 type ButtonProps = {
     text: string;
     onPress: () => void;
-    className?: string;
-};
+} & Styled;
 
-export const Button: React.FC<ButtonProps> = ({ text, onPress, className }) => {
+export const Button: React.FC<ButtonProps> = ({ text, onPress, styles }) => {
+    const className = getClasses(styles);
     const { baseClasses, textClasses } = separateTextClasses(className);
 
     const pressableClassName = twMerge(
@@ -21,7 +22,10 @@ export const Button: React.FC<ButtonProps> = ({ text, onPress, className }) => {
         baseClasses
     );
 
-    const textClassName = twMerge("text-lg font-bold text-white", textClasses);
+    const textClassName = twMerge(
+        "text-lg font-bold text-white text-center",
+        textClasses
+    );
 
     const buttonClassName = twMerge(pressableClassName, textClassName);
 

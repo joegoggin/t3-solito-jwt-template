@@ -5,10 +5,11 @@ import { api } from "app/utils/trpc";
 import { Button } from "app/ui/buttons";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "solito/router";
+import { StyleSheet } from "app/utils/hooks/getClasses";
 
 const HomeScreen: React.FC = () => {
     // state
-    const [message, setMessage] = useState<string>("test");
+    const [message, setMessage] = useState<string>("");
 
     // queries
     const { data: fetchedMessage } = api.hello.sayHello.useQuery();
@@ -32,20 +33,43 @@ const HomeScreen: React.FC = () => {
         router.push("/sign-up");
     };
 
+    // styles
+    const styles = {
+        title: {
+            main: "text-green-500 text-center",
+        },
+        message: {
+            main: "text-[30px] text-blue-500 text-center",
+        },
+        btnContainer: {
+            main: "m-10 w-1/4 flex-row items-center justify-evenly",
+            phone: "flex-col w-[80%]",
+            tablet: "flex-col w-[80%]",
+        },
+        signInBtn: {
+            main: "bg-green-700 text-black",
+            phone: "w-full mb-10",
+            tablet: "w-full mb-10",
+        },
+        signUpBtn: {
+            main: "bg-cyan-500 text-black",
+            phone: "w-full",
+            tablet: "w-full",
+        },
+    } satisfies StyleSheet;
+
     return (
         <Layout>
-            <H1 className="text-white">T3 Solito Template</H1>
-            <P className="text-[20px] text-cyan-100 lg:text-[30px]">
-                {message}
-            </P>
-            <View className="m-10 w-1/4 flex-row items-center justify-evenly">
+            <H1 styles={styles.title}>T3 Solito Template</H1>
+            <P styles={styles.message}>{message}</P>
+            <View styles={styles.btnContainer}>
                 <Button
-                    className="bg-white text-black"
+                    styles={styles.signInBtn}
                     text="Sign In"
                     onPress={handleSignInNavigation}
                 />
                 <Button
-                    className="bg-black text-white"
+                    styles={styles.signUpBtn}
                     text="Sign Up"
                     onPress={handleSignUpNavigation}
                 />

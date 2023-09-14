@@ -1,14 +1,27 @@
-import { View } from "react-native";
-import { styled } from "nativewind";
+import { View } from "app/ui/view";
+import { ViewProps } from "react-native";
+import { getClasses, Styled } from "app/utils/hooks/getClasses";
+import { twMerge } from "tailwind-merge";
+import React from "react";
 
-export const Row = styled(View, "flex-row");
+type StyledViewProps = ViewProps & Styled;
 
-export const Layout = styled(
-    View,
-    "flex-1 items-center justify-center bg-green-800"
-);
+export const Layout: React.FC<StyledViewProps> = ({ styles, ...props }) => {
+    const classes = getClasses(styles);
+    const className = twMerge(
+        "flex-1 items-center justify-center bg-black",
+        classes
+    );
 
-export const Card = styled(
-    View,
-    "p-20 w-[50%] bg-white rounded-lg items-center"
-);
+    return <View className={className} {...props} />;
+};
+
+export const Card: React.FC<StyledViewProps> = ({ styles, ...props }) => {
+    const classes = getClasses(styles);
+    const className = twMerge(
+        "p-20 w-1/2 bg-white rounded-lg items-center",
+        classes
+    );
+
+    return <View className={className} {...props} />;
+};
