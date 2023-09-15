@@ -8,6 +8,7 @@ import { handleChangeText } from "app/utils/handleChangeText";
 import { api } from "app/utils/trpc";
 import { useRouter } from "solito/router";
 import { useUser } from "app/provider/context/UserContextProvider";
+import { StyleSheet } from "app/utils/hooks/getClasses";
 
 const SignInScreen: React.FC = () => {
     // state
@@ -44,29 +45,56 @@ const SignInScreen: React.FC = () => {
         }
     };
 
+    // styles
+    const styles = {
+        card: {
+            main: "bg-green-600",
+        },
+        title: {
+            main: "text-green-900",
+        },
+        label: {
+            main: "text-cyan-800",
+        },
+        input: {
+            main: "bg-green-400",
+        },
+        signInBtn: {
+            main: "text-green-600",
+        },
+        signUpBtn: {
+            main: "bg-cyan-800 text-green-600",
+        },
+    } satisfies StyleSheet;
+
     return (
         <Layout>
-            <Card>
-                <H1 className="text-black">Sign In</H1>
+            <Card styles={styles.card}>
+                <H1 styles={styles.title}>Sign In</H1>
                 <View className="mt-10 w-[80%]">
-                    <InputLabel>Email</InputLabel>
+                    <InputLabel styles={styles.label}>Email</InputLabel>
                     <TextInput
-                        className="mb-2"
+                        styles={{ main: `mb-2 ${styles.input.main}` }}
                         value={email}
                         onChangeText={handleChangeText(setEmail)}
                     />
 
-                    <InputLabel>Password</InputLabel>
+                    <InputLabel styles={styles.label}>Password</InputLabel>
                     <TextInput
+                        styles={styles.input}
                         value={password}
                         secureTextEntry={true}
                         onChangeText={handleChangeText(setPassword)}
                     />
                 </View>
                 <View className="mt-20 w-[80%] flex-row justify-evenly">
-                    <Button text="Sign In" onPress={handleSignIn} />
                     <Button
-                        className="bg-black"
+                        styles={styles.signInBtn}
+                        text="Sign In"
+                        onPress={handleSignIn}
+                    />
+                    <Button
+                        styles={styles.signUpBtn}
                         text="Sign Up"
                         onPress={handleSignUpNavigation}
                     />

@@ -4,9 +4,9 @@ import { styled } from "nativewind";
 import { getClasses, Styled } from "app/utils/hooks/getClasses";
 import { twMerge } from "tailwind-merge";
 
-const StyledText = styled(NativeText);
+export const StyledText = styled(NativeText);
 
-type CustomTextProps = TextProps & Styled;
+export type CustomTextProps = TextProps & Styled;
 
 export const Text: React.FC<CustomTextProps> = ({ styles, ...props }) => {
     const classes = getClasses(styles);
