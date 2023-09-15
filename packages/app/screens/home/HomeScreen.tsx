@@ -37,24 +37,30 @@ const HomeScreen: React.FC = () => {
     const styles = {
         title: {
             main: "text-green-500 text-center",
+            phoneSm: "text-2xl",
+            phone: "text-3xl",
+            tablet: "text-4xl",
         },
         message: {
-            main: "text-[30px] text-blue-500 text-center",
+            main: "text-2xl text-blue-500 text-center",
+            phoneSm: "text-xl",
         },
         btnContainer: {
-            main: "m-10 w-1/4 flex-row items-center justify-evenly",
+            main: "m-10 w-1/2 flex-row items-center justify-evenly",
             phone: "flex-col w-[80%]",
             tablet: "flex-col w-[80%]",
         },
         signInBtn: {
             main: "bg-green-700 text-black",
-            phone: "w-full mb-10",
-            tablet: "w-full mb-10",
+            phoneSm: "w-full mb-5 py-2 text-sm",
+            phone: "w-full mb-5 py-2 text-sm",
+            tablet: "w-full mb-5 py-4 text-base",
         },
         signUpBtn: {
             main: "bg-cyan-500 text-black",
-            phone: "w-full",
-            tablet: "w-full",
+            phoneSm: "w-full py-2 text-sm",
+            phone: "w-full py-2 text-sm",
+            tablet: "w-full py-4 text-base",
         },
     } satisfies StyleSheet;
 
