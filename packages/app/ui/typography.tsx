@@ -27,7 +27,7 @@ P.defaultProps = {
 
 export const H1: React.FC<CustomTextProps> = ({ styles, ...props }) => {
     const classes = getClasses(styles);
-    const mergedClasses = twMerge("text-6xl font-extrabold my-4", classes);
+    const mergedClasses = twMerge("text-9xl font-extrabold my-4", classes);
 
     return <StyledText className={mergedClasses} {...props} />;
 };
