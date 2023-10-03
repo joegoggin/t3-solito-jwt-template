@@ -9,6 +9,8 @@ export const UserSchema = z.object({
     password: z.string().min(1, "Password is required."),
     confirm: z.string().min(1, "Confirm is required."),
     role: RoleEnum,
+    authCode: z.string().nullish(),
+    setPassword: z.boolean().default(true),
 });
 
 const SelectiveSchema = UserSchema.omit({

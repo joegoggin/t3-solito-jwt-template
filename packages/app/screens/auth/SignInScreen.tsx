@@ -25,10 +25,6 @@ const SignInScreen: React.FC = () => {
     const router = useRouter();
 
     // event handlers
-    const handleSignUpNavigation = () => {
-        router.push("/sign-up");
-    };
-
     const handleSignIn = async () => {
         try {
             const userData = await signIn.mutateAsync({
@@ -48,22 +44,13 @@ const SignInScreen: React.FC = () => {
     // styles
     const styles = {
         card: {
-            main: "bg-green-600",
+            main: "bg-none",
         },
         title: {
-            main: "text-green-900",
-        },
-        label: {
-            main: "text-cyan-800",
-        },
-        input: {
-            main: "bg-green-400",
+            main: "text-blue-700",
         },
         signInBtn: {
-            main: "text-green-600",
-        },
-        signUpBtn: {
-            main: "bg-cyan-800 text-green-600",
+            main: "text-black bg-blue-700",
         },
     } satisfies StyleSheet;
 
@@ -72,19 +59,17 @@ const SignInScreen: React.FC = () => {
             <Card styles={styles.card}>
                 <H1 styles={styles.title}>Sign In</H1>
                 <View className="mt-10 w-[80%]">
-                    <InputLabel styles={styles.label}>Email</InputLabel>
                     <TextInput
-                        styles={{ main: `mb-2 ${styles.input.main}` }}
+                        styles={{ main: "mb-6" }}
                         value={email}
                         onChangeText={handleChangeText(setEmail)}
+                        placeholder="Email"
                     />
-
-                    <InputLabel styles={styles.label}>Password</InputLabel>
                     <TextInput
-                        styles={styles.input}
                         value={password}
                         secureTextEntry={true}
                         onChangeText={handleChangeText(setPassword)}
+                        placeholder="Password"
                     />
                 </View>
                 <View className="mt-20 w-[80%] flex-row justify-evenly">
@@ -92,11 +77,6 @@ const SignInScreen: React.FC = () => {
                         styles={styles.signInBtn}
                         text="Sign In"
                         onPress={handleSignIn}
-                    />
-                    <Button
-                        styles={styles.signUpBtn}
-                        text="Sign Up"
-                        onPress={handleSignUpNavigation}
                     />
                 </View>
             </Card>

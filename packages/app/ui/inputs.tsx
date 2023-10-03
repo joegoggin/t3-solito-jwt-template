@@ -12,7 +12,7 @@ type CustomTextInput = TextInputProps & Styled;
 export const TextInput: React.FC<CustomTextInput> = ({ styles, ...props }) => {
     const classes = getClasses(styles);
     const mergedClasses = twMerge(
-        "bg-gray-200 w-full rounded-xl py-2 px-4 text-green-800 text-base focus:outline-green-800",
+        "bg-black w-full border border-blue-500 focus:shadow-sm focus:shadow-blue-700 py-2 px-2 text-base text-blue-500 focus:outline-none focus:border-4 focus:font-bold focus:px-2 focus:text-lg transition-all duration-250",
         classes
     );
 
@@ -22,7 +22,7 @@ export const TextInput: React.FC<CustomTextInput> = ({ styles, ...props }) => {
 export const InputLabel: React.FC<CustomTextProps> = ({ styles, ...props }) => {
     const classes = getClasses(styles);
     const mergedClasses = twMerge(
-        "mb-2 ml-2 text-base font-bold text-green-800",
+        "mb-2 ml-2 text-base font-bold text-blue-500",
         classes
     );
 

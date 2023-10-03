@@ -1,3 +1,4 @@
+import { SetValue } from "app/types/SetValue";
 import {
     clearLocalToken,
     storeTokenLocally,
@@ -25,7 +26,8 @@ type UserContext = {
     token: string | null;
     role: Role | null;
     isInit: boolean;
-    setUserData: (userData: UserData) => void;
+    setUser: SetValue<User>;
+    setUserData: SetValue<UserData>;
     clearUserData: () => void;
 };
 
@@ -34,6 +36,7 @@ const UserCtx = createContext<UserContext>({
     token: null,
     role: null,
     isInit: false,
+    setUser: () => { },
     setUserData: () => { },
     clearUserData: () => { },
 });
@@ -90,14 +93,12 @@ const UserContextProvider: React.FC<{ children: ReactNode }> = ({
                     } else {
                         clearUserData();
                     }
-
-                    setIsInit(true);
-                } else {
-                    setIsInit(true);
                 }
             } catch (error) {
                 console.error(error);
             }
+
+            setIsInit(true);
         };
 
         init();
@@ -110,9 +111,20 @@ const UserContextProvider: React.FC<{ children: ReactNode }> = ({
         }
     }, [fetchedUser]);
 
+    useEffect(() => {
+        console.log({ user, isInit, token });
+    }, [user, isInit, token]);
     return (
         <UserCtx.Provider
-            value={{ user, token, role, isInit, setUserData, clearUserData }}
+            value={{
+                user,
+                token,
+                role,
+                isInit,
+                setUser,
+                setUserData,
+                clearUserData,
+            }}
         >
             {children}
         </UserCtx.Provider>

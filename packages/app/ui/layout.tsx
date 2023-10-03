@@ -19,7 +19,7 @@ export const Layout: React.FC<StyledViewProps> = ({ styles, ...props }) => {
 export const Card: React.FC<StyledViewProps> = ({ styles, ...props }) => {
     const classes = getClasses(styles);
     const className = twMerge(
-        "p-20 w-1/2 bg-white rounded-lg items-center",
+        "p-20 w-1/2 border border-blue-500 shadow-md shadow-blue-700 rounded-lg items-center",
         classes
     );
 

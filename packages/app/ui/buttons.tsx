@@ -18,7 +18,7 @@ export const Button: React.FC<ButtonProps> = ({ text, onPress, styles }) => {
     const { baseClasses, textClasses } = separateTextClasses(className);
 
     const pressableClassName = twMerge(
-        "w-max rounded-xl bg-green-800 px-8 py-5",
+        "w-max rounded-xl bg-blue-700 px-8 py-5 hover:bg-blue-500 hover:scale-105 hover:shadow-sm hover:shadow-blue-700 transition-all duration-150",
         baseClasses
     );
 
