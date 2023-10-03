@@ -1,6 +1,6 @@
 import { Card, Layout } from "app/ui/layout";
 import { View } from "app/ui/view";
-import { InputLabel, TextInput } from "app/ui/inputs";
+import { TextInput } from "app/ui/inputs";
 import { H1 } from "app/ui/typography";
 import React, { useState } from "react";
 import { Button } from "app/ui/buttons";

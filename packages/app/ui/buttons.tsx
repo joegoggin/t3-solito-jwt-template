@@ -23,7 +23,7 @@ export const Button: React.FC<ButtonProps> = ({ text, onPress, styles }) => {
     );
 
     const textClassName = twMerge(
-        "text-lg font-bold text-white text-center",
+        "text-lg font-bold text-black text-center",
         textClasses
     );
 

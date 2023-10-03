@@ -111,9 +111,6 @@ const UserContextProvider: React.FC<{ children: ReactNode }> = ({
         }
     }, [fetchedUser]);
 
-    useEffect(() => {
-        console.log({ user, isInit, token });
-    }, [user, isInit, token]);
     return (
         <UserCtx.Provider
             value={{

@@ -1,7 +1,11 @@
 import { z } from "zod";
 import { AuthSchema } from "../../models/schemas/Auth";
 import { InternalServerError } from "../../types/errors/internalServerError";
-import { handleSignIn, handleVerifyToken } from "../controllers/auth";
+import {
+    handleSignIn,
+    handleVerifyAuthCode,
+    handleVerifyToken,
+} from "../controllers/auth";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 
 export const authRouter = createTRPCRouter({
@@ -32,5 +36,26 @@ export const authRouter = createTRPCRouter({
             }
 
             return response;
+        }),
+    verifyAuthCode: publicProcedure
+        .input(
+            z.object({
+                authCode: z.string().min(1, "Authentication code is required."),
+            })
+        )
+        .mutation(async ({ ctx, input }) => {
+            const { authCode } = input;
+
+            try {
+                const response = await handleVerifyAuthCode(ctx, authCode);
+
+                if (!response) {
+                    throw new InternalServerError();
+                }
+
+                return response;
+            } catch (error) {
+                throw error;
+            }
         }),
 });

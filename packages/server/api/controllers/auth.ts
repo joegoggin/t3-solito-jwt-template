@@ -52,3 +52,38 @@ export const handleVerifyToken = (token: string) => {
         return { userId: null };
     }
 };
+
+export const handleVerifyAuthCode = async (
+    ctx: PublicCTX,
+    authCode: string
+) => {
+    try {
+        const user = await ctx.prisma.user.findUnique({
+            where: {
+                authCode,
+            },
+        });
+
+        if (!user) {
+            throw new TRPCError({
+                code: "UNAUTHORIZED",
+                message: "Invalid authentication code.",
+            });
+        }
+
+        await ctx.prisma.user.update({
+            where: {
+                id: user.id,
+            },
+            data: {
+                authCode: null,
+            },
+        });
+
+        const token = jwt.sign({ userId: user.id }, JWT_SECRET);
+
+        return { userId: user.id, token };
+    } catch (error) {
+        throw error;
+    }
+};
