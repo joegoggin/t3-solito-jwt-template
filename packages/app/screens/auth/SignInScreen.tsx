@@ -8,7 +8,7 @@ import { handleChangeText } from "app/utils/handleChangeText";
 import { api } from "app/utils/trpc";
 import { useRouter } from "solito/router";
 import { useUser } from "app/provider/context/UserContextProvider";
-import { StyleSheet } from "app/utils/hooks/getClasses";
+import { authFormStyles as styles } from "app/constants/styles";
 
 const SignInScreen: React.FC = () => {
     // state
@@ -41,24 +41,11 @@ const SignInScreen: React.FC = () => {
         }
     };
 
-    // styles
-    const styles = {
-        card: {
-            main: "bg-none",
-        },
-        title: {
-            main: "text-blue-700",
-        },
-        signInBtn: {
-            main: "text-black bg-blue-700",
-        },
-    } satisfies StyleSheet;
-
     return (
         <Layout>
-            <Card styles={styles.card}>
+            <Card>
                 <H1 styles={styles.title}>Sign In</H1>
-                <View className="mt-10 w-[80%]">
+                <View styles={styles.form}>
                     <TextInput
                         styles={{ main: "mb-6" }}
                         value={email}
@@ -72,12 +59,8 @@ const SignInScreen: React.FC = () => {
                         placeholder="Password"
                     />
                 </View>
-                <View className="mt-20 w-[80%] flex-row justify-evenly">
-                    <Button
-                        styles={styles.signInBtn}
-                        text="Sign In"
-                        onPress={handleSignIn}
-                    />
+                <View styles={styles.btnContainer}>
+                    <Button text="Sign In" onPress={handleSignIn} />
                 </View>
             </Card>
         </Layout>

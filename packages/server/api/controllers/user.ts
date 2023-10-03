@@ -6,7 +6,7 @@ import {
     handlePrismaNotFoundError,
     handlePrismaUniqueError,
 } from "../../utils/errorHandling";
-import { validateEmail } from "../../utils/validation";
+import { validateEmail, validateNewPassword } from "../../utils/validation";
 
 const select = {
     id: true,
@@ -14,6 +14,8 @@ const select = {
     lName: true,
     email: true,
     role: true,
+    authCode: true,
+    setPassword: true,
 };
 
 export const handleCreateUser = async (ctx: PublicCTX, data: UserInput) => {
@@ -67,5 +69,64 @@ export const handleGetUser = async (ctx: PrivateCTX, userId: string) => {
         }
     } catch (error) {
         handlePrismaNotFoundError(error, "User");
+    }
+};
+
+export const handleUpdateUser = async (
+    ctx: PrivateCTX,
+    userId: string,
+    data: Partial<UserInput>
+) => {
+    try {
+        let updatedUser: User | undefined;
+
+        if (data.password) {
+            const validation = validateNewPassword(data.password);
+
+            if (!validation.isValid) {
+                throw new TRPCError({
+                    code: "BAD_REQUEST",
+                    message: validation.error || "Invalid password.",
+                });
+            }
+
+            if (data.password !== data.confirm) {
+                throw new TRPCError({
+                    code: "BAD_REQUEST",
+                    message: "Password and Confirm don't match.",
+                });
+            }
+
+            const hashedPassword = await hashPassword(data.password);
+
+            if (hashedPassword) {
+                const { confirm: _, ...userData } = data;
+
+                updatedUser = (await ctx.prisma.user.update({
+                    where: {
+                        id: userId,
+                    },
+                    data: { ...userData, password: hashedPassword },
+                    select,
+                })) as User;
+            }
+        } else {
+            updatedUser = (await ctx.prisma.user.update({
+                where: {
+                    id: userId,
+                },
+                data,
+                select,
+            })) as User;
+        }
+
+        if (updatedUser) {
+            return { updatedUser };
+        }
+    } catch (error) {
+        handlePrismaNotFoundError(error, "User");
+        handlePrismaUniqueError(error, "email", data.email, "User");
+
+        throw error;
     }
 };

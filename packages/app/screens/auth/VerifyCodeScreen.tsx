@@ -8,7 +8,7 @@ import { api } from "app/utils/trpc";
 import { useUser } from "app/provider/context/UserContextProvider";
 import { useIsClaim } from "app/utils/hooks/params/useIsClaim";
 import { H1 } from "app/ui/typography";
-import { StyleSheet } from "app/utils/hooks/getClasses";
+import { authFormStyles as styles } from "app/constants/styles";
 
 const VerifyCode: React.FC = () => {
     // state
@@ -42,13 +42,6 @@ const VerifyCode: React.FC = () => {
         }
     };
 
-    // styles
-    const styles = {
-        title: { main: "text-blue-700" },
-        form: { main: "mt-10 w-[80%]" },
-        btnConatiner: { main: "mt-20" },
-    } satisfies StyleSheet;
-
     return (
         <Layout>
             <Card>
@@ -62,7 +55,7 @@ const VerifyCode: React.FC = () => {
                         placeholder="Authentication Code"
                     />
                 </View>
-                <View styles={styles.btnConatiner}>
+                <View styles={styles.btnContainer}>
                     <Button
                         text={isClaim ? "Claim Account" : "Reset Password"}
                         onPress={handleClaimAccount}
